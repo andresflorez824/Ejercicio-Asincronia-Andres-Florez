@@ -1,25 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="0.js"></script>
-</head>
+<html>
 <body>
-    <div>
-    <h1 id="salida">Salida</h1>
-    </div>
-    
-    <style>
-      .box {
-            padding: 10px;
-            margin: 5px;
-            background: lightblue;
-            width: 150px;
-            border-radius: 8px;
-            font-size: 20px;
-        }
-    </style>
+
+<h2>Salida</h2>
+<div id="salida"></div>
+
+<script>
+function crearCaja(letra, num) {
+    const d = document.createElement("div");
+    d.style.padding = "8px";
+    d.style.margin = "5px 0";
+    d.style.border = "1px solid #000";
+    d.style.background = "#eee";
+    d.style.fontSize = "18px";
+
+    const h = new Date();
+    const hora = h.toLocaleTimeString();
+
+    d.textContent = letra + " [Enviado de: " + num + "] apareció en " + hora;
+    salida.appendChild(d);
+}
+
+function esperar(ms) {
+    return new Promise(r => setTimeout(r, ms));
+}
+
+window.onload = async () => {
+    crearCaja("A", 1);
+    crearCaja("B", 2);
+
+    esperar(5000).then(() => crearCaja("C", 4));
+
+    const r = Math.floor(Math.random() * 3000) + 2000;
+    esperar(r).then(() => {
+        crearCaja("D", 5);
+        esperar(2000).then(() => {
+            crearCaja("E", 6);
+            esperar(2000).then(() => {
+                crearCaja("G", 7);
+                esperar(3000).then(() => crearCaja("H", 8));
+            });
+        });
+    });
+
+    esperar(7000).then(() => crearCaja("F", 3));
+};
+</script>
+
 </body>
 </html>
